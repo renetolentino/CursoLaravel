@@ -34,6 +34,11 @@ input, select, textarea, button {
 
 .borda-branca {
     border: solid 1px #fff;
+    color: #fff;
+}
+
+.borda-branca::placeholder {
+    color: #fff;
 }
 
 .borda-preta {
@@ -168,6 +173,7 @@ button:hover {
 }
 
 .rodape {
+    padding-top: 2em;
     width: 100%;
 }
 
