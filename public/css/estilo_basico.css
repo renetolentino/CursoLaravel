@@ -205,3 +205,34 @@ button:hover {
     background-color: red;
     color: white;
 }
+
+.login {
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    width: 40%;
+    margin: 0 auto 0 auto;
+    padding: 1em;
+}
+
+.login input {
+    border: 1px solid lightskyblue;
+}
+
+.login label {
+    cursor: pointer;
+}
+
+.erro {
+    background-color: red;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.erro p {
+    color: #fff;
+}
+
+.app {
+    color:#000;
+}

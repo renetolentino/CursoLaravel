@@ -28,7 +28,7 @@ class ContatoController extends Controller
     }
 
     public function salvar(Request $request) {
-        
+
         $msgDuplicada = false;
 
         //Realizar a validação dos dados do formulário recebidos no $request
