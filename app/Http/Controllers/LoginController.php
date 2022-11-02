@@ -74,6 +74,52 @@ class LoginController extends Controller
     }
 
     public function sair() {
-        return 'Chegamos até o método sair de LoginController';
+        session_destroy();
+        return redirect()->route('site.index');
+    }
+
+    public function cadastrar(Request $request) {
+        $status = $request->get('status');
+        return view('site.cadastro', ['titulo' => 'Cadastro', 'status' => $status]);
+    }
+
+    public function salvarCadastro(Request $request) {
+        //dd($request);
+        $regras = [
+            'email' => 'email',
+            'name' => 'required|min:3|max:255',
+            'password' => 'required|min:8|max:32'
+        ];
+
+        $feedback = [
+            'email.email' => 'Verifique o email enviado',
+            'name.required' => 'O campo nome é obrigatório',
+            'name.min' => 'O nome deve conter pelo menos 3 letras',
+            'name.max' => 'O nome é muito grande',
+            'password' => 'A senha é inválida'
+        ];
+
+        $request->validate($regras, $feedback);
+
+        //echo 'Chegamos até aqui';
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+
+        $user = User::where('email', $request->email)->get();
+
+        //dd($user);
+
+        $teste = $user->first();
+
+        if($teste->email == $request->email) {
+            return redirect()->route('site.cadastrar', ['status' => 1]);
+        } else {
+            return redirect()->route('site.cadastrar', ['status' => 0]);
+        }
+
     }
 }

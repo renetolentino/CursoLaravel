@@ -162,6 +162,13 @@ button:hover {
     text-align: center;
 }
 
+.titulo-pagina-app {
+    padding: 70px 0px 10px 0px;
+    margin-bottom: 10px;
+    background-color: #2a9ee2;
+    text-align: center;
+}
+
 .informacao-pagina {
     text-align: center;
     margin-top: 30px;
@@ -233,6 +240,45 @@ button:hover {
     color: #fff;
 }
 
-.app {
-    color:#000;
+.form-erro {
+    color: #ff0000;
+}
+
+.cadastro-form {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid lightskyblue;
+    border-radius: 25px;
+    padding: 2em;
+    margin-top: 1em;
+}
+
+.cadastro-form input {
+    border: 1px solid blue;
+    border-radius: 2px;
+}
+
+.cadastro-form input:active {
+    border: 2px solid gray;
+    border-radius: 2px;
+}
+
+.form-fornecedores {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consulta th, .consulta td {
+    border: 1px solid black;
+    padding: 1px;
+}
+
+.w-5 {
+    width: 25px;
+}
+
+.h-5 {
+    height: 25px;
 }

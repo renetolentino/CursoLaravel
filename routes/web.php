@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\ProdutoDetalheController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LogAcessoMiddleware;
 
@@ -42,24 +43,48 @@ Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
 Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');;
 
 Route::get('/contato', [ContatoController::class,'contato'])->name('site.contato');
-
 Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
 
 Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
 Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
 
+Route::get('/cadastrar/{status?}', [LoginController::class, 'cadastrar'])->name('site.cadastrar');
+Route::post('/cadastrar', [LoginController::class, 'salvarCadastro'])->name('site.cadastrar');
+
 Route::middleware('autenticacao')
     ->prefix('/app')
     ->group(function (){
+
         Route::get('/home', [HomeController::class, 'index'])
             ->name('app.home');
+
         Route::get('/sair', [LoginController::class, 'sair'])
             ->name('app.sair');
+
         Route::get('/cliente', [ClienteController::class, 'index'])
             ->name('app.cliente');
-        Route::get('/produto', [ProdutoController::class, 'index'])
-            ->name('app.produto');
+
+        
+
         Route::get('/fornecedor', [FornecedorController::class, 'index'])
             ->name('app.fornecedor');
+        Route::get('/fornecedor/adicionar/{status?}', [FornecedorController::class, 'adicionar'])
+            ->name('app.fornecedor.adicionar');
+        Route::post('/fornecedor/adicionar', [FornecedorController::class, 'adicionar'])
+            ->name('app.fornecedor.adicionar');
+        Route::get('/fornecedor/listar', [FornecedorController::class, 'listar'])
+            ->name('app.fornecedor.listar');
+        Route::post('/fornecedor/listar', [FornecedorController::class, 'listar'])
+            ->name('app.fornecedor.listar');
+        Route::get('/fornecedor/editar/{id}', [FornecedorController::class, 'editar'])
+            ->name('app.fornecedor.editar');
+        Route::get('/fornecedor/excluir/{id}', [FornecedorController::class, 'excluir'])
+            ->name('app.fornecedor.excluir');
+
+        //produtos
+        Route::resource('produto', ProdutoController::class);
+
+        //produto detalhes
+        Route::resource('produto_detalhe', ProdutoDetalheController::class);
     }
 );
