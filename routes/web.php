@@ -8,6 +8,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PedidoProdutoController;
 use App\Http\Controllers\ProdutoDetalheController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LogAcessoMiddleware;
@@ -61,9 +63,6 @@ Route::middleware('autenticacao')
         Route::get('/sair', [LoginController::class, 'sair'])
             ->name('app.sair');
 
-        Route::get('/cliente', [ClienteController::class, 'index'])
-            ->name('app.cliente');
-
         
 
         Route::get('/fornecedor', [FornecedorController::class, 'index'])
@@ -86,5 +85,17 @@ Route::middleware('autenticacao')
 
         //produto detalhes
         Route::resource('produto_detalhe', ProdutoDetalheController::class);
+
+        //clientes
+        Route::resource('cliente', ClienteController::class);
+
+        //pedidos
+        Route::resource('pedido', PedidoController::class);
+
+        //Pedido Produto
+        //Route::resource('pedido_produto', PedidoProdutoController::class);
+        Route::get('pedido_produto/create/{pedido}', [PedidoProdutoController::class, 'create'])->name('pedido_produto.create');
+        Route::post('pedido_produto/store/{pedido}', [PedidoProdutoController::class, 'store'])->name('pedido_produto.store');
+        Route::delete('pedido_produto/{pedidoProduto}/{pedido_id}/destroy', [PedidoProdutoController::class, 'destroy'])->name('pedido_produto.destroy');
     }
 );

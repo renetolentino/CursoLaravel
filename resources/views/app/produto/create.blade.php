@@ -28,7 +28,7 @@
 
             <div class="form-fornecedores">
 
-                @component('app.layouts._components.form_create_edit', ['unidades' => $unidades])
+                @component('app.layouts._components.form_create_edit', ['unidades' => $unidades, 'fornecedores' => $fornecedores])
                     
                 @endcomponent
 

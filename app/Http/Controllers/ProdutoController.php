@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fornecedor;
 use App\Models\Item;
 use App\Models\Produto;
 use App\Models\ProdutoDetalhe;
@@ -22,8 +23,8 @@ class ProdutoController extends Controller
         $produtos = Item::paginate(10);
 
         return view('app.produto.index', [
-            'produtos' => $produtos, 
-            'request' => $request->all(),
+            'produtos' => $produtos,
+            'request' => $request->all()
         ]);
     }
 
@@ -36,9 +37,11 @@ class ProdutoController extends Controller
     {
         //
         $unidades = Unidade::all();
+        $fornecedores = Fornecedor::all();
 
         return view('app.produto.create', [
-            'unidades' => $unidades
+            'unidades' => $unidades,
+            'fornecedores' => $fornecedores
         ]);
     }
 
@@ -55,7 +58,8 @@ class ProdutoController extends Controller
             'nome' => 'required|min:3|max:100',
             'peso' => 'required|integer',
             'unidade_id' => 'required|exists:unidades,id',
-            'descricao' => 'max:2000'
+            'descricao' => 'max:2000',
+            'fornecedor_id' => 'exists:fornecedores, id'
 
         ];
 
@@ -65,7 +69,8 @@ class ProdutoController extends Controller
             'nome.max' => 'O campo "nome" deve ter no máximo 100 caracteres',
             'peso.integer' => 'Digite um número inteiro e selecione a unidade de medida desejada',
             'descricao.max' => 'O campo descrição deve ter no máximo 2000 caracteres',
-            'unidade_id.exists' => 'O valor inserido não é válido'
+            'unidade_id.exists' => 'O valor inserido não é válido',
+            'fornecedor_id.exists' => 'O valor inserido não é válido'
         ];
 
         $request->validate($regras, $feedback);
@@ -80,12 +85,14 @@ class ProdutoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Produto  $produto
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Produto $produto)
+    public function show(Item $produto)
     {
         //
+        
+        //dd($produto);
         return view('app.produto.show', ['produto' => $produto]);
     }
 
@@ -95,29 +102,32 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produto $produto)
+    public function edit(Item $produto)
     {
         //
         $unidades = Unidade::all();
+        $fornecedores = Fornecedor::all();
 
-        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades, 'fornecedores' => $fornecedores]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Produto  $produto
+     * @param  \App\Models\Item  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, Item $produto)
     {
         //
+        
         $regras = [
             'nome' => 'required|min:3|max:100',
             'peso' => 'required|integer',
             'unidade_id' => 'required|exists:unidades,id',
-            'descricao' => 'max:2000'
+            'descricao' => 'max:2000',
+            'fornecedor_id' => 'exists:fornecedores, id'
 
         ];
 
@@ -127,10 +137,12 @@ class ProdutoController extends Controller
             'nome.max' => 'O campo "nome" deve ter no máximo 100 caracteres',
             'peso.integer' => 'Digite um número inteiro e selecione a unidade de medida desejada',
             'descricao.max' => 'O campo descrição deve ter no máximo 2000 caracteres',
-            'unidade_id.exists' => 'O valor inserido não é válido'
+            'unidade_id.exists' => 'O valor inserido não é válido',
+            'fornecedor_id.exists' => 'O valor inserido não é válido'
         ];
-
+        $request->validate($regras, $feedback);
         $produto->update($request->all());
+
         return redirect()->route('produto.show', ['produto' => $produto->id]);
         
     }
@@ -141,7 +153,7 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produto $produto)
+    public function destroy(Item $produto)
     {
         //
         //dd($produto);
